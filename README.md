@@ -12,7 +12,7 @@ A script to enable customers of lazy ISPs to perform measurement campaigns of th
 ## Notes
 
 -   the script is rating the provider with grade 6 automatically (adapt it if you like your provider)
--   the script is stating that you use a LAN connection while performing the speedtest because this is the only way you can use it to argument against your provide ... you have to ensure you are using a cable connection
+-   the script is stating that you use a LAN connection while performing the speedtest because this is the only way you can use it to argument against your provider ... you have to ensure you are using a cable connection
 
 ## License
 
