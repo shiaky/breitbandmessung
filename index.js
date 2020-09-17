@@ -67,6 +67,7 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
 (async () => {
   puppeteer
     .launch({
+      executablePath: conf.browser_path,
       headless: conf.start_headless,
       args: ["--no-sandbox", "--disable-setuid-sandbox"]
     })

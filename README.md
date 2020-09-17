@@ -5,7 +5,7 @@ A script to enable customers of lazy ISPs to perform measurement campaigns of th
 ## Usage
 
 -   install dependencies using `yarn install`
--   rename `conf.example.js` to `conf.js`
+-   rename `config.example.js` to `config.js`
 -   adapt the variables accordingly
 -   perform a test using `node index.js`
 

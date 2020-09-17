@@ -1,6 +1,7 @@
 // export path
 exports.export_path = "/tmp/speedtest";
 exports.start_headless = true;
+exports.browser_path = null;
 
 //data
 exports.zip_code = "99999";
