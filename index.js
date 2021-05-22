@@ -5,55 +5,25 @@ const conf = require("./config");
 const base_url = "https://breitbandmessung.de";
 
 // selectors
-const accept_button_selector = "#dsvooverlay-close > span";
-const start_test_selector = "#start";
-const skip_gps_dialog_selector = "#overlay-close > span.title";
-const lan_yes_selector =
-  "#q2 > div > div.answer.answer-lan.has-pretty-child > div.clearfix.prettyradio.labelright.lable-right.blue > a";
-const lan_continue_selector =
-  "#q2 > div > div.menu > a.forward.button-blue-big.button-blue-big-forward.ani-bg";
-const hints_yes_selector =
-  "#q2 > div > div.answer.answer-optimal.has-pretty-child > div.clearfix.prettyradio.labelright.lable-right.blue > a";
-const hints_continue_selector =
-  "#q2 > div > div.menu > a.forward.button-blue-big.button-blue-big-forward.ani-bg";
-const zipcode_selector = "#plz";
-const zipcode_continue_selector =
-  "#q3 > div > div.menu > a.forward.button-blue-big.button-blue-big-forward.ani-bg";
+const accept_cookies_selector = "#allowAll";
+const start_test_selector = "#root > div > div > div > div > div > button";
+const accept_policy_selector =
+  "#root > div > div.fade.modal-md.modal.show > div > div > div.justify-content-between.modal-footer > button:nth-child(2)";
 
-const provider_container_selector = "#select2-provider-container";
-const provider_search_input_selector =
-  "#mbody > span > span > span.select2-search.select2-search--dropdown > input";
-const provider_continue_selector =
-  "#q4 > div > div.menu > a.forward.button-blue-big.button-blue-big-forward.ani-bg";
-
-const service_container_selector = "#select2-tarifselect-container";
-const service_search_input_selector = "#select2-tarifselect-container";
-const service_continue_selector =
-  "#q24 > div > div.menu > a.forward.button-blue-big.button-blue-big-forward.ani-bg";
-
-const throttling_no_selector =
-  "#q13 > div > div.answer.answer-limit.has-pretty-child > div.clearfix.prettyradio.labelright.lable-right.blue > a";
-const throttling_continue_selector =
-  "#q13 > div > div.menu > a.forward.button-blue-big.button-blue-big-forward.ani-bg";
-
-const unhappy_selector =
-  "#q7 > div > div.answer.answer-customer > ul > li.last > a";
-const start_test_2_selector =
-  "#q7 > div > div.menu > a.forward.button-blue-big.button-blue-big-forward.ani-bg";
-
-const download_results_selector = "#result-export";
+const download_results_selector =
+  "#root > div > div > div > div > div.messung-options.col.col-12.text-md-right > button.px-0.px-sm-4.btn.btn-link";
 
 const download_speed_selector =
-  "#test > div.test-results-total-wrap > div > div > div.test-results-outer-wrap > div > div > div.test-results > div.results-sec.results-download > div.title > span > span";
+  "#root > div > div > div > div > div:nth-child(1) > div > div > div:nth-child(2) > div > div.progressIndicatorSingle > div.progress-info > div.fromto > span";
 const upload_speed_selector =
-  "#test > div.test-results-total-wrap > div > div > div.test-results-outer-wrap > div > div > div.test-results > div.results-sec.results-upload > div.title > span > span";
+  "#root > div > div > div > div > div:nth-child(1) > div > div > div.col.col-12.col-md-12.col-xl-4 > div > div.progressIndicatorSingle > div.progress-info > div.fromto > span";
 
 // misc functions
 const click_button = async (page, selector, timeout = 30, visible = false) => {
   try {
     await page.waitForSelector(selector, {
       timeout: timeout * 10 ** 3,
-      visible: visible
+      visible: visible,
     });
     await page.click(selector);
     // console.log(`clicked ${selector}`);
@@ -68,91 +38,37 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
   puppeteer
     .launch({
       headless: conf.start_headless,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"]
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     })
-    .then(async browser => {
+    .then(async (browser) => {
+      const context = browser.defaultBrowserContext();
+      await context.overridePermissions(base_url, []);
       const page = await browser.newPage();
       await page.setViewport({
         width: 1024,
         height: 1024,
-        deviceScaleFactor: 1
+        deviceScaleFactor: 1,
       });
 
       await page._client.send("Page.setDownloadBehavior", {
         behavior: "allow",
-        downloadPath: conf.export_path
+        downloadPath: conf.export_path,
       });
 
       try {
         await page.goto(`${base_url}/test`);
         console.log("PREPARING SPEEDTEST");
 
-        // accept privacy policy
-        await click_button(page, accept_button_selector);
+        // accept cookies
+        await click_button(page, accept_cookies_selector);
 
         // click start test
         await page.waitFor(1000);
         await click_button(page, start_test_selector);
 
-        // click skip gps dialog
+        //click accept policy
         await page.waitFor(1000);
-        await click_button(page, skip_gps_dialog_selector);
-
-        // mark lan used with yes
-        await page.waitFor(1000);
-        await click_button(page, lan_yes_selector);
-
-        await page.waitFor(1000);
-        await click_button(page, lan_continue_selector);
-
-        // mark additional hints read with yes
-        await page.waitFor(1000);
-        await click_button(page, hints_yes_selector);
-
-        await page.waitFor(1000);
-        await click_button(page, hints_continue_selector);
-
-        // enter zip code
-        await page.waitFor(1000);
-        await page.type(zipcode_selector, conf.zip_code);
-        await click_button(page, zipcode_continue_selector);
-
-        // enter provider
-        await page.waitFor(1000);
-        await click_button(page, provider_container_selector);
-
-        await page.waitFor(1000);
-        await page.type(provider_search_input_selector, conf.provider);
-        await page.keyboard.press("Enter");
-
-        await page.waitFor(1000);
-        await click_button(page, provider_continue_selector);
-
-        //enter service booked from provider
-        await page.waitFor(1000);
-        await click_button(page, service_container_selector);
-
-        await page.waitFor(1000);
-        await page.type(service_search_input_selector, conf.service);
-        await page.keyboard.press("Enter");
-
-        await page.waitFor(1000);
-        await click_button(page, service_continue_selector);
-
-        //mark no throttling
-        await page.waitFor(1000);
-        await click_button(page, throttling_no_selector);
-
-        await page.waitFor(1000);
-        await click_button(page, throttling_continue_selector);
-
-        // mark to be verry unhappy with provider
-        await page.waitFor(10000);
-        await click_button(page, unhappy_selector);
-
-        // click start test
-        await page.waitFor(1000);
-        await click_button(page, start_test_2_selector);
+        await click_button(page, accept_policy_selector);
 
         console.log("RUNNING SPEEDTEST");
 
@@ -160,7 +76,7 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
         try {
           await page.waitForSelector(download_results_selector, {
             timeout: 300 * 10 ** 3,
-            visible: true
+            visible: true,
           });
 
           console.log("SPEEDTEST DONE");
