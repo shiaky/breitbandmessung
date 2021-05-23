@@ -1,17 +1,16 @@
 # Breitbandmessung.de automated
 
-A script to enable customers of lazy ISPs to perform measurement campaigns of the connection speed as described [here](https://www.bundesnetzagentur.de/DE/Sachgebiete/Telekommunikation/Verbraucher/Breitbandmessung/Breitbandmessung-node.html) in an automated way.
+A script to enable customers of lazy ISPs to perform measurement campaigns of the connection speed as described [here](https://www.bundesnetzagentur.de/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Breitband/Breitbandmessung/Breitbandmessung-node.html) in an automated way.
 
-## Usage Node
+## Usage
 
-- install dependencies using `yarn install`
-- perform a test using `node index.js`
-- find the results in the `EXPORT_PATH` defined
+Create a folder for the measurement results `mkdir messprotokolle`.
 
-## Usage Docker
+Then just run:
 
-- build docker image using `docker build . -t breitbandmessung`
-- perform the test `docker run -v $PWD/messprotokolle:/export/ breitbandmessung`
+```
+docker run -v $PWD/messprotokolle:/export/ shiaky/breitbandmessung:latest
+```
 
 ## License
 
