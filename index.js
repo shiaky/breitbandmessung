@@ -1,5 +1,8 @@
 const puppeteer = require("puppeteer");
-const conf = require("./config");
+
+//config
+const START_HEADLESS = process.env.START_HEADLESS || true;
+const EXPORT_PATH = process.env.EXPORT_PATH || "/export/";
 
 //base url
 const base_url = "https://breitbandmessung.de";
@@ -9,10 +12,8 @@ const accept_cookies_selector = "#allowAll";
 const start_test_selector = "#root > div > div > div > div > div > button";
 const accept_policy_selector =
   "#root > div > div.fade.modal-md.modal.show > div > div > div.justify-content-between.modal-footer > button:nth-child(2)";
-
 const download_results_selector =
   "#root > div > div > div > div > div.messung-options.col.col-12.text-md-right > button.px-0.px-sm-4.btn.btn-link";
-
 const download_speed_selector =
   "#root > div > div > div > div > div:nth-child(1) > div > div > div:nth-child(2) > div > div.progressIndicatorSingle > div.progress-info > div.fromto > span";
 const upload_speed_selector =
@@ -26,7 +27,6 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
       visible: visible,
     });
     await page.click(selector);
-    // console.log(`clicked ${selector}`);
   } catch (err) {
     console.log(`could not click: ${err}`);
     await page.screenshot({ path: `error-screenshot.png` });
@@ -35,82 +35,83 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
 };
 
 (async () => {
-  puppeteer
-    .launch({
-      headless: conf.start_headless,
+  try {
+    const browser = await puppeteer.launch({
+      headless: START_HEADLESS,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    })
-    .then(async (browser) => {
-      const context = browser.defaultBrowserContext();
-      await context.overridePermissions(base_url, []);
-      const page = await browser.newPage();
-      await page.setViewport({
-        width: 1024,
-        height: 1024,
-        deviceScaleFactor: 1,
-      });
+    });
+    const context = browser.defaultBrowserContext();
+    await context.overridePermissions(base_url, []);
+    const page = await browser.newPage();
+    await page.setViewport({
+      width: 1024,
+      height: 1024,
+      deviceScaleFactor: 1,
+    });
 
-      await page._client.send("Page.setDownloadBehavior", {
-        behavior: "allow",
-        downloadPath: conf.export_path,
-      });
+    await page._client.send("Page.setDownloadBehavior", {
+      behavior: "allow",
+      downloadPath: EXPORT_PATH,
+    });
 
+    try {
+      await page.goto(`${base_url}/test`);
+      console.log("PREPARING SPEEDTEST");
+
+      // accept cookies
+      await click_button(page, accept_cookies_selector);
+
+      // click start test
+      await click_button(page, start_test_selector);
+
+      //click accept policy
+      await click_button(page, accept_policy_selector);
+
+      console.log("RUNNING SPEEDTEST");
+
+      // wait for test to be done
       try {
-        await page.goto(`${base_url}/test`);
-        console.log("PREPARING SPEEDTEST");
+        await page.waitForSelector(download_results_selector, {
+          timeout: 300 * 10 ** 3,
+          visible: true,
+        });
 
-        // accept cookies
-        await click_button(page, accept_cookies_selector);
-
-        // click start test
-        await page.waitFor(1000);
-        await click_button(page, start_test_selector);
-
-        //click accept policy
-        await page.waitFor(1000);
-        await click_button(page, accept_policy_selector);
-
-        console.log("RUNNING SPEEDTEST");
-
-        // wait for test to be done
-        try {
-          await page.waitForSelector(download_results_selector, {
-            timeout: 300 * 10 ** 3,
-            visible: true,
-          });
-
-          console.log("SPEEDTEST DONE");
-        } catch (err) {
-          console.log("could not find download ready");
-          console.log(err);
-          await browser.close();
-        }
-
-        // download results
-        await page.waitFor(3000);
-        await click_button(page, download_results_selector);
-
-        await page.waitFor(3000);
-        console.log(`saved results to ${conf.export_path}`);
-
-        // get measured speeds to show it in stdout
-        let download_speed = await page.$$(download_speed_selector);
-        download_speed = download_speed.pop();
-        download_speed = await download_speed.getProperty("innerText");
-        download_speed = await download_speed.jsonValue();
-        let upload_speed = await page.$$(upload_speed_selector);
-        upload_speed = upload_speed.pop();
-        upload_speed = await upload_speed.getProperty("innerText");
-        upload_speed = await upload_speed.jsonValue();
-
-        console.log(`RESULTS >>> \nD:[${download_speed}]\nU:[${upload_speed}]`);
-
-        //exit browser
-        await browser.close();
+        console.log("SPEEDTEST DONE");
       } catch (err) {
-        console.log("fatal error");
+        console.log("could not find download ready");
         console.log(err);
         await browser.close();
+        return;
       }
-    });
+
+      // download results
+      await click_button(page, download_results_selector);
+
+      console.log(`saved results to ${EXPORT_PATH}`);
+
+      // get measured speeds to show it in stdout
+      let download_speed = await page.$$(download_speed_selector);
+      download_speed = download_speed.pop();
+      download_speed = await download_speed.getProperty("innerText");
+      download_speed = await download_speed.jsonValue();
+      let upload_speed = await page.$$(upload_speed_selector);
+      upload_speed = upload_speed.pop();
+      upload_speed = await upload_speed.getProperty("innerText");
+      upload_speed = await upload_speed.jsonValue();
+
+      console.log(`RESULTS >>> \nD:[${download_speed}]\nU:[${upload_speed}]`);
+
+      //exit browser
+      await browser.close();
+    } catch (err) {
+      console.log("fatal error");
+      console.log(err);
+      await browser.close();
+      return;
+    }
+  } catch (error) {
+    console.log("Error starting pupeteer");
+    console.log(error);
+    return;
+  }
 })();
