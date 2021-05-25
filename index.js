@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const fs = require("fs");
 
 //config
 const START_HEADLESS = process.env.START_HEADLESS || true;
@@ -103,6 +104,9 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
 
       //exit browser
       await browser.close();
+
+      //set rights for all in the download path
+      await fs.promises.chmod(EXPORT_PATH, "777");
     } catch (err) {
       console.log("fatal error");
       console.log(err);
