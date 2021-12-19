@@ -16,7 +16,7 @@ The default timezone is UTC
 Just run:
 
 ```
-git clone https://github.com/shneezin/breitbandmessung.git && cd broadbandmeasurement
+git clone https://github.com/shneezin/breitbandmessung.git && cd breitbandmessung
 chmod +x create.sh
 sudo create.sh
 ```
