@@ -18,7 +18,7 @@ Just run:
 ```
 git clone https://github.com/shneezin/breitbandmessung.git && cd breitbandmessung
 chmod +x create.sh
-sudo create.sh
+sudo ./create.sh
 ```
 
 ## License
