@@ -9,7 +9,8 @@ Create a folder for the measurement results `mkdir messprotokolle`.
 Then just run:
 
 ```
-docker run -v $PWD/messprotokolle:/export/ shiaky/breitbandmessung:latest
+docker build . -t breitbandmessung
+docker run -v $PWD/messprotokolle:/export/ breitbandmessung:latest
 ```
 
 ## License
