@@ -1,0 +1,4 @@
+{
+ "cronSchedule": "5 16 * * *",
+ "timezone": "Europe/Berlin"
+}
