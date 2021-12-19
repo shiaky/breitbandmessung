@@ -60,6 +60,13 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
+crontab@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/crontab/-/crontab-1.4.2.tgz#847452d91574c6029486e70d0186cb27be742892"
+  integrity sha512-utvLBomZS+ZWpi7MHqn6ETneYxfShNFx9rKj0HUsF0dnTPdOtnjLNC2lNhFWJD89H3/Un0uV7wigEDe3EWfFlg==
+  dependencies:
+    underscore "^1.6.0"
+
 debug@4, debug@^4.1.0:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
@@ -317,6 +324,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+underscore@^1.6.0:
+  version "1.13.2"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.2.tgz#276cea1e8b9722a8dbed0100a407dda572125881"
+  integrity sha512-ekY1NhRzq0B08g4bGuX4wd2jZx5GnKz6mKSqFL4nqBlfyMGiG10gDFhDTMEfYmDL6Jy0FUIZp7wiRB+0BP7J2g==
 
 util-deprecate@~1.0.1:
   version "1.0.2"
