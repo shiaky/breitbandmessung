@@ -1,3 +1,7 @@
+ const shell = require('shelljs')
+
+ shell.exec('./timezone.sh')
+
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
@@ -9,7 +13,7 @@ const EXPORT_PATH = process.env.EXPORT_PATH || "/export/";
 const base_url = "https://breitbandmessung.de";
 
 // selectors
-const accept_cookies_selector = ("#allowAll");
+const accept_cookies_selector = ("#allow-all");
 const start_test_selector = "#root > div > div > div > div > div > button";
 const accept_policy_selector =
   "#root > div > div.fade.modal-md.modal.show > div > div > div.justify-content-between.modal-footer > button:nth-child(2)";

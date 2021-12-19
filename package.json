@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "puppeteer": "^2.0.0"
+    "puppeteer": "^2.0.0",
+    "shelljs": "^0.8.4"
   }
 }
