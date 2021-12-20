@@ -1,7 +1,3 @@
- const shell = require('shelljs')
-
- shell.exec('./timezone.sh')
-
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
