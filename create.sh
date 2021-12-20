@@ -6,3 +6,4 @@ docker rm breitbandmessung >> /dev/null
 docker build . -t breitbandmessung
 mkdir $PWD/messprotokolle
 docker run -v $PWD/messprotokolle:/export/ --name "breitbandmessung" breitbandmessung:latest &
+docker restart breitbandmessung
