@@ -14,6 +14,6 @@ RUN yarn install
 #ENTRYPOINT [ "node", "index.js" ]
 
 ENTRYPOINT ["tail"]
-CMD ["/bin/bash /usr/src/app/cron.sh]
-CMD ["/bin/bash /usr/src/app/timezone.sh]
+CMD ["/bin/bash /usr/src/app/cron.sh"]
+CMD ["/bin/bash /usr/src/app/timezone.sh"]
 CMD ["-f","/dev/null"]
