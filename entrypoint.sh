@@ -12,7 +12,7 @@ ln -s /usr/share/zoneinfo/$TZ /etc/localtime
 
 
 printenv | sed 's/^\(.*\)$/export \1/g' > /root/project_env.sh
-echo "${CRON_SCHEDULE} . /root/project_env.sh && cd /usr/src/app && flock -n /var/lock/messung.lock node /usr/src/app/index.js > /proc/1/fd/1 2>/proc/1/fd/2" | crontab -
+echo "${CRON_SCHEDULE} . /root/project_env.sh && cd /usr/src/app && flock -n /var/lock/messung.lock node /usr/src/app/index.js && rm /var/lock/messung.lock > /proc/1/fd/1 2>/proc/1/fd/2" | crontab -
 cron -f
 
 echo "Exiting..."
