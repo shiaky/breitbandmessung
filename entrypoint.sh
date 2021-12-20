@@ -1,5 +1,4 @@
 #!/bin/bash
-/usr/src/app/timezone.sh
 
 source config/config.shlib;
 
