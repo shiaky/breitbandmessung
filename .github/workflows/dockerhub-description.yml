@@ -1,4 +1,3 @@
-
 name: Push README to Docker Hub
 on: push
 jobs:
