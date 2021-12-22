@@ -13,7 +13,7 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_PASS: ${{ secrets.DOCKER_HUB_PASSWORD }}
         with:
-          destination_container_repo: my-user/my-repo
+          destination_container_repo: shnezzin/breitbandmessung
           provider: dockerhub
           short_description: 'Perform breitbandmessung.de speedtests in an automated way'
           readme_file: 'README.md'
