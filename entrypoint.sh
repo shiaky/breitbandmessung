@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source config/config.shlib;
+source config.shlib;
 
 TZ="$(config_get timezone)";
 CRON_SCHEDULE="$(config_get crontab)";

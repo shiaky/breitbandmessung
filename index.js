@@ -58,6 +58,7 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
     try {
       await page.goto(`${base_url}/test`);
       console.log("PREPARING SPEEDTEST");
+await page.setDefaultNavigationTimeout(0);
 
       // accept cookies
       await click_button(page, accept_cookies_selector);
