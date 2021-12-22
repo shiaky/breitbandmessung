@@ -5,6 +5,7 @@ A script to enable customers of lazy ISPs to perform measurement campaigns of th
 ## Usage
 
 Create a config folder and a config.cfg.
+Create a folder for the measurement results `mkdir messprotokolle`.
 
 For the cronjob you can use [this website](https://crontab-generator.org/).
 By default the measurement runs every 2 hours.
