@@ -3,7 +3,7 @@ FROM buildkite/puppeteer
 # Create app directory
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock index.js ./
+COPY package.json yarn.lock index.js  config.cfg.defaults config.shlib ./
 
 RUN touch config.js && \
     mkdir /export

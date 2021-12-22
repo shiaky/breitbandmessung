@@ -17,9 +17,15 @@ Just run:
 
 ```
 git clone https://github.com/shneezin/breitbandmessung.git && cd breitbandmessung
-chmod +x create.sh
 sudo ./create.sh
 ```
+
+or 
+
+```
+docker run -v $PWD/config/:/usr/src/app/config:rw -v $PWD/messprotokolle:/export/ --name "breitbandmessung" shneezin/breitbandmessung
+```
+
 
 ## License
 
