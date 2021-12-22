@@ -58,7 +58,7 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
     try {
       await page.goto(`${base_url}/test`);
       console.log("PREPARING SPEEDTEST");
-await page.setDefaultNavigationTimeout(0);
+      await page.setDefaultNavigationTimeout(0);
 
       // accept cookies
       await click_button(page, accept_cookies_selector);
@@ -74,7 +74,7 @@ await page.setDefaultNavigationTimeout(0);
       // wait for test to be done
       try {
         await page.waitForSelector(download_results_selector, {
-          timeout: 300 * 10 ** 3,
+          timeout: 3000 * 10 ** 3,
           visible: true,
         });
 
