@@ -1,20 +1,20 @@
-name: Update Docker Hub Description
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - README.md
-      - .github/workflows/dockerhub-description.yml
-jobs:
-  dockerHubDescription:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
 
-    - name: Docker Hub Description
-      uses: peter-evans/dockerhub-description@v2
-      with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          repository: shneezin/breitbandmessung
+name: Push README to Docker Hub
+on: push
+jobs:
+  PushContainerReadme:
+    runs-on: ubuntu-latest
+    name: Push README to Docker Hub
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v2
+      - name: push README to Dockerhub
+        uses: christian-korneck/update-container-description-action@v1
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_PASS: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        with:
+          destination_container_repo: my-user/my-repo
+          provider: dockerhub
+          short_description: 'Perform breitbandmessung.de speedtests in an automated way'
+          readme_file: 'README.md'
