@@ -1,3 +1,4 @@
+import { outputFileSync } from 'fs-extra';
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
@@ -109,10 +110,21 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
       //set rights for all in the download path
       await fs.promises.chmod(EXPORT_PATH, "777");
     } catch (err) {
-      console.log("fatal error");
-      console.log(err);
-      await browser.close();
-      return;
+      let success = false;
+      if (page) {
+        const errorPrefix = `error-${new Date().toISOString()}`.replace(/:/g, '-');
+        const errorImage = path.join(CONFIG_DIR, `${errorPrefix}.png`);
+        await page.screenshot({ path: errorImage });
+        const errorHtml = path.join(CONFIG_DIR, `${errorPrefix}.html`);
+        const htmlContent = await page.content();
+        outputFileSync(errorHtml, htmlContent, 'utf8');
+        this.L.error(
+          { errorImage, errorHtml },
+          'Encountered an error during browser automation. Saved a screenshot and page HTML for debugging purposes.'
+        );
+      }
+      if (browser) await browser.close();
+      if (!success) throw err;
     }
   } catch (error) {
     console.log("Error starting pupeteer");
