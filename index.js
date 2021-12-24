@@ -118,11 +118,7 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
         await page.screenshot({ path: errorImage });
         const errorHtml = path.join(EXPORT_PATH, `${errorPrefix}.html`);
         const htmlContent = await page.content();
-//        outputFileSync(errorHtml, htmlContent, 'utf8');
-        this.L.error(
-          { errorImage, errorHtml },
-          'Encountered an error during browser automation. Saved a screenshot and page HTML for debugging purposes.'
-        );
+        outputFileSync(errorHtml, htmlContent, 'utf8');
       }
       if (browser) await browser.close();
       if (!success) throw err;
