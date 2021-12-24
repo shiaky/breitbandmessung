@@ -1,3 +1,4 @@
+import { outputFileSync } from 'fs-extra';
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
@@ -121,8 +122,6 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
           { errorImage, errorHtml },
           'Encountered an error during browser automation. Saved a screenshot and page HTML for debugging purposes.'
         );
-        if (!config.noHumanErrorHelp)
-          success = await this.sendErrorManualHelpNotification(page, browser, cdpClient);
       }
       if (browser) await browser.close();
       if (!success) throw err;
