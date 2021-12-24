@@ -1,4 +1,3 @@
-import { outputFileSync } from 'fs-extra';
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
@@ -113,15 +112,17 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
       let success = false;
       if (page) {
         const errorPrefix = `error-${new Date().toISOString()}`.replace(/:/g, '-');
-        const errorImage = path.join(CONFIG_DIR, `${errorPrefix}.png`);
+        const errorImage = path.join(EXPORT_PATH, `${errorPrefix}.png`);
         await page.screenshot({ path: errorImage });
-        const errorHtml = path.join(CONFIG_DIR, `${errorPrefix}.html`);
+        const errorHtml = path.join(EXPORT_PATH, `${errorPrefix}.html`);
         const htmlContent = await page.content();
-        outputFileSync(errorHtml, htmlContent, 'utf8');
+//        outputFileSync(errorHtml, htmlContent, 'utf8');
         this.L.error(
           { errorImage, errorHtml },
           'Encountered an error during browser automation. Saved a screenshot and page HTML for debugging purposes.'
         );
+        if (!config.noHumanErrorHelp)
+          success = await this.sendErrorManualHelpNotification(page, browser, cdpClient);
       }
       if (browser) await browser.close();
       if (!success) throw err;
