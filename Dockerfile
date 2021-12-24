@@ -5,9 +5,10 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock index.js ./
 
-RUN touch config.js && \
-    mkdir /export
+RUN mkdir /export
 
 RUN yarn install
+
+COPY index.js ./
 
 CMD [ "node", "index.js" ]

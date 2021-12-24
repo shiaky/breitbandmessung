@@ -1,12 +1,12 @@
 # Breitbandmessung.de automated
 
-A script to enable customers of lazy ISPs to perform measurement campaigns of the connection speed as described [here](https://www.bundesnetzagentur.de/DE/Sachgebiete/Telekommunikation/Unternehmen_Institutionen/Breitband/Breitbandmessung/Breitbandmessung-node.html) in an automated way.
+A script to enable customers of lazy ISPs to perform measurement campaigns of the connection speed as described [here](https://breitbandmessung.de/desktop-app) in an automated way.
 
 ## Usage
 
 Create a folder for the measurement results `mkdir messprotokolle`.
 
-Then just run:
+Then just run this for creating a single measurement:
 
 ```
 docker run -v $PWD/messprotokolle:/export/ shiaky/breitbandmessung:latest

@@ -9,7 +9,6 @@ const EXPORT_PATH = process.env.EXPORT_PATH || "/export/";
 const base_url = "https://breitbandmessung.de";
 
 // selectors
-const accept_cookies_selector = "#allowAll";
 const start_test_selector = "#root > div > div > div > div > div > button";
 const accept_policy_selector =
   "#root > div > div.fade.modal-md.modal.show > div > div > div.justify-content-between.modal-footer > button:nth-child(2)";
@@ -21,7 +20,13 @@ const upload_speed_selector =
   "#root > div > div > div > div > div:nth-child(1) > div > div > div.col.col-12.col-md-12.col-xl-4 > div > div.progressIndicatorSingle > div.progress-info > div.fromto > span";
 
 // misc functions
-const click_button = async (page, selector, timeout = 30, visible = false) => {
+const click_button = async (
+  browser,
+  page,
+  selector,
+  timeout = 30,
+  visible = false
+) => {
   try {
     await page.waitForSelector(selector, {
       timeout: timeout * 10 ** 3,
@@ -29,9 +34,10 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
     });
     await page.click(selector);
   } catch (err) {
-    console.log(`could not click: ${err}`);
-    await page.screenshot({ path: `error-screenshot.png` });
+    console.log(`could not click element\nError: ${err}`);
+    await page.screenshot({ path: `${EXPORT_PATH}/error-screenshot.png` });
     await browser.close();
+    process.exit(1);
   }
 };
 
@@ -45,8 +51,8 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
     await context.overridePermissions(base_url, []);
     const page = await browser.newPage();
     await page.setViewport({
-      width: 1024,
-      height: 1024,
+      width: 2024,
+      height: 2024,
       deviceScaleFactor: 1,
     });
 
@@ -59,14 +65,11 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
       await page.goto(`${base_url}/test`);
       console.log("PREPARING SPEEDTEST");
 
-      // accept cookies
-      await click_button(page, accept_cookies_selector);
-
       // click start test
-      await click_button(page, start_test_selector);
+      await click_button(browser, page, start_test_selector);
 
       //click accept policy
-      await click_button(page, accept_policy_selector);
+      await click_button(browser, page, accept_policy_selector);
 
       console.log("RUNNING SPEEDTEST");
 
@@ -79,14 +82,14 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
 
         console.log("SPEEDTEST DONE");
       } catch (err) {
-        console.log("could not find download ready");
+        console.log("could not find results for download");
         console.log(err);
         await browser.close();
         return;
       }
 
       // download results
-      await click_button(page, download_results_selector);
+      await click_button(browser, page, download_results_selector);
 
       console.log(`saved results to ${EXPORT_PATH}`);
 
@@ -114,7 +117,7 @@ const click_button = async (page, selector, timeout = 30, visible = false) => {
       return;
     }
   } catch (error) {
-    console.log("Error starting pupeteer");
+    console.log("Error starting puppeteer");
     console.log(error);
     return;
   }
