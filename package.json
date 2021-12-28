@@ -1,17 +1,9 @@
 {
   "name": "breitbandmessung",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
-  "type": "module",
   "license": "MIT",
   "dependencies": {
     "puppeteer": "^13.0.1",
-    "puppeteer-extra": "^3.2.3",
-    "fs-extra": "^10.0.0",
-    "puppeteer-extra-plugin-portal": "^3.0.0"
-  },
-  "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
-    "copyfiles": "^2.4.1"
   }
 }
