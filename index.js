@@ -1,9 +1,5 @@
-import outputFileSync from 'fs-extra';
-const { exportfilesync } = outputFileSync;
-import path from 'path';
-import puppeteer from 'puppeteer';
-import fs from 'fs';
-
+const puppeteer = require("puppeteer");
+const fs = require("fs");
 
 //config
 const START_HEADLESS = process.env.START_HEADLESS || true;
@@ -39,7 +35,7 @@ const click_button = async (
     await page.click(selector);
   } catch (err) {
     console.log(`could not click element\nError: ${err}`);
-    await page.screenshot({ path: `error-screenshot.png` });
+    await page.screenshot({ path: `${EXPORT_PATH}/error-screenshot.png` });
     await browser.close();
     process.exit(1);
   }
@@ -55,8 +51,8 @@ const click_button = async (
     await context.overridePermissions(base_url, []);
     const page = await browser.newPage();
     await page.setViewport({
-      width: 2048,
-      height: 2048,
+      width: 2024,
+      height: 2024,
       deviceScaleFactor: 1,
     });
 
@@ -68,10 +64,6 @@ const click_button = async (
     try {
       await page.goto(`${base_url}/test`);
       console.log("PREPARING SPEEDTEST");
-      await page.setDefaultNavigationTimeout(0);
-
-      // accept cookies
-      await click_button(page, accept_cookies_selector);
 
       // click start test
       await click_button(browser, page, start_test_selector);
@@ -84,7 +76,7 @@ const click_button = async (
       // wait for test to be done
       try {
         await page.waitForSelector(download_results_selector, {
-          timeout: 3000 * 10 ** 3,
+          timeout: 300 * 10 ** 3,
           visible: true,
         });
 
@@ -119,17 +111,10 @@ const click_button = async (
       //set rights for all in the download path
       await fs.promises.chmod(EXPORT_PATH, "777");
     } catch (err) {
-      let success = false;
-      if (page) {
-        const errorPrefix = `error-${new Date().toISOString()}`.replace(/:/g, '-');
-        const errorImage = path.join(EXPORT_PATH, `${errorPrefix}.png`);
-        await page.screenshot({ path: errorImage });
-        const errorHtml = path.join(EXPORT_PATH, `${errorPrefix}.html`);
-        const htmlContent = await page.content();
-        exportfilesync(errorHtml, htmlContent, 'utf8');
-      }
-      if (browser) await browser.close();
-      if (!success) throw err;
+      console.log("fatal error");
+      console.log(err);
+      await browser.close();
+      return;
     }
   } catch (error) {
     console.log("Error starting puppeteer");
