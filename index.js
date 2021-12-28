@@ -1,3 +1,4 @@
+import esm from 'esm'
 import { outputFileSync } from 'fs-extra';
 import path from 'path';
 const puppeteer = require("puppeteer");
