@@ -5,8 +5,7 @@ WORKDIR /usr/src/app
 
 COPY package.json yarn.lock index.js  config.cfg.defaults config.shlib ./
 
-RUN touch config.js && \
-    mkdir /export
+RUN mkdir /export
 
 RUN apt-get update && apt-get -y install cron tini
 RUN yarn install
