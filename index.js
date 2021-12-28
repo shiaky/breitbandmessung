@@ -1,5 +1,5 @@
 import outputFileSync from 'fs-extra';
-const { outputFileSync } = exportfilesync;
+const { exportfilesync } = outputFileSync;
 import path from 'path';
 import puppeteer from 'puppeteer';
 import fs from 'fs';
