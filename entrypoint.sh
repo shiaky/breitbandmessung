@@ -18,7 +18,7 @@ echo "Setting cron schedule: ${CRON_SCHEDULE}"
 echo "${CRON_SCHEDULE} /bin/bash -c '/usr/local/bin/node -r esm /usr/src/app/index.js' > /proc/1/fd/1 2>/proc/1/fd/2" | crontab -
 cron -f
 else
-node -r esm /usr/src/app/index.js
+node /usr/src/app/index.js
 echo "Exiting..."
 exit 0
 fi
