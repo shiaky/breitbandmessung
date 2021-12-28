@@ -1,7 +1,9 @@
-import { outputFileSync } from 'fs-extra';
+import outputFileSync from 'fs-extra';
+const { exportfilesync } = outputFileSync;
 import path from 'path';
-const puppeteer = require("puppeteer");
-const fs = require("fs");
+import puppeteer from 'puppeteer';
+import fs from 'fs';
+
 
 //config
 const START_HEADLESS = process.env.START_HEADLESS || true;
@@ -124,7 +126,7 @@ const click_button = async (
         await page.screenshot({ path: errorImage });
         const errorHtml = path.join(EXPORT_PATH, `${errorPrefix}.html`);
         const htmlContent = await page.content();
-        outputFileSync(errorHtml, htmlContent, 'utf8');
+        exportfilesync(errorHtml, htmlContent, 'utf8');
       }
       if (browser) await browser.close();
       if (!success) throw err;
