@@ -22,6 +22,7 @@ Example Configuration:
 timezone=Europe/Berlin
 crontab=* */2 * * *
 run_once=true
+run_on_startup=true
 ```
 
 
@@ -38,6 +39,10 @@ or
 docker run -d -v $PWD/config/:/usr/src/app/config:rw -v $PWD/messprotokolle:/export/ --name "breitbandmessung" shneezin/breitbandmessung
 ```
 
+To merge the csv files into one, run merge.sh or:
+```
+wget -O - https://raw.githubusercontent.com/shneezin/breitbandmessung/master/merge.sh | bash
+```
 
 ## License
 
