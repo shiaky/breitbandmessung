@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source config.shlib;
 
 TZ="$(config_get timezone)";
