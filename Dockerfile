@@ -11,5 +11,5 @@ RUN apt-get update && apt-get -y install cron tini
 RUN yarn install
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN ln -s /usr/local/bin/docker-entrypoint.sh / 
+
 ENTRYPOINT ["tini", "--", "docker-entrypoint.sh"]
