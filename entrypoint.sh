@@ -14,6 +14,7 @@ ln -s /usr/share/zoneinfo/$TZ /etc/localtime
 echo "Run once: ${RUN_ONCE}"
 if [ "$RUN_ONCE" = "false" ]; then
 printenv | sed 's/^\(.*\)$/export \1/g' > /root/project_env.sh
+/usr/local/bin/node /usr/src/app/index.js
 echo "Setting cron schedule: ${CRON_SCHEDULE}"
 echo "${CRON_SCHEDULE} /bin/bash -c '/usr/local/bin/node /usr/src/app/index.js' > /proc/1/fd/1 2>/proc/1/fd/2" | crontab -
 cron -f
