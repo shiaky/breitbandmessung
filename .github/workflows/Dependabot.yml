@@ -2,7 +2,7 @@ name: Dependabot
 
 on:
   push:
-    branches: [ dependabot/npm_and_yarn/** ]
+    branches: [ master ]
 
 jobs:
   build:
