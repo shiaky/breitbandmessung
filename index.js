@@ -1,6 +1,8 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 
+await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
+
 //config
 const START_HEADLESS = process.env.START_HEADLESS || true;
 const EXPORT_PATH = process.env.EXPORT_PATH || "/export/";
