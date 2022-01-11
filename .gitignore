@@ -3,3 +3,4 @@ node_modules/*
 messprotokolle/*
 config/config.cfg
 messergebnisse.csv
+puppeteer_build/node_modules/*
