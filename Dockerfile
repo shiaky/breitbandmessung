@@ -1,7 +1,7 @@
 FROM node:14.16.0-buster-slim
 
 RUN  apt-get update \
-     && apt-get install -y procps libxss1 chromium \
+     && apt-get install -y procps libxss1 chromium tini cron \
      && rm -rf /var/lib/apt/lists/*
 
 # Install Puppeteer under /node_modules so it's available system-wide
@@ -15,7 +15,6 @@ COPY package.json yarn.lock index.js  config.cfg.defaults config.shlib ./
 
 RUN mkdir /export
 
-RUN apt-get update && apt-get -y install cron tini
 RUN yarn install
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
