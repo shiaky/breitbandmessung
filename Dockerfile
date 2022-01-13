@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:16.13.2-bullseye-slim
 
 RUN  apt-get update \
      && apt-get install -y procps libxss1 chromium tini cron \
