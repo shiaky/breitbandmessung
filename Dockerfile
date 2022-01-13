@@ -1,4 +1,4 @@
-FROM node:14.16.0-buster-slim
+FROM node:14-alpine
 
 RUN  apt-get update \
      && apt-get install -y procps libxss1 chromium tini cron \
