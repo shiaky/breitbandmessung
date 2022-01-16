@@ -4,6 +4,7 @@ RUN apk add --no-cache \
     procps \
     procps \
     chromium \
+    bash \
     tini
 
 # Install Puppeteer under /node_modules so it's available system-wide
@@ -21,6 +22,6 @@ RUN yarn install
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-#ENTRYPOINT ["tini", "--", "docker-entrypoint.sh"]
-ENTRYPOINT ["tail"]
-CMD ["-f","/dev/null"]
+ENTRYPOINT ["tini", "--", "docker-entrypoint.sh"]
+#ENTRYPOINT ["tail"]
+#CMD ["-f","/dev/null"]
