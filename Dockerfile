@@ -22,8 +22,6 @@ ENV DISTRO=alpine
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-RUN rc-service crond start && rc-update add crond
-
 # Install Puppeteer under /node_modules so it's available system-wide
 ADD ./puppeteer_build/package.json ./puppeteer_build/yarn.lock /
 RUN yarn install
