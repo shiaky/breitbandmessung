@@ -1,18 +1,30 @@
 FROM node:16.13.2-alpine
 
+# Create app directory
+WORKDIR /usr/src/app
+
 RUN apk add --no-cache \
     procps \
     procps \
-    chromium \
+    chromium \      
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    freetype \
+    nss \
     bash \
+    yarn \
     tini
+    
+ENV DISTRO=alpine
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+RUN rc-service crond start && rc-update add crond
 
 # Install Puppeteer under /node_modules so it's available system-wide
 ADD ./puppeteer_build/package.json ./puppeteer_build/yarn.lock /
 RUN yarn install
-
-# Create app directory
-WORKDIR /usr/src/app
 
 COPY package.json yarn.lock index.js  config.cfg.defaults config.shlib ./
 
