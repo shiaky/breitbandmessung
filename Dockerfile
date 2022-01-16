@@ -2,6 +2,7 @@ FROM node:16.13.2-alpine
 
 RUN apk add --no-cache \
     procps \
+    procps \
     chromium \
     tini
 
@@ -20,5 +21,4 @@ RUN yarn install
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-#ENTRYPOINT ["tini", "--", "docker-entrypoint.sh"]
-CMD [ "node", "index.js" ]
+ENTRYPOINT ["tini", "--", "docker-entrypoint.sh"]
