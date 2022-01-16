@@ -1,8 +1,11 @@
-FROM node:16.13.2-bullseye-slim
+FROM node:16.13.2-alpine
 
-RUN  apt-get update \
-     && apt-get install -y procps libxss1 chromium tini cron \
-     && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    procps \
+    libxss1 \
+    chromium \
+    cron \
+    tini
 
 # Install Puppeteer under /node_modules so it's available system-wide
 ADD ./puppeteer_build/package.json ./puppeteer_build/yarn.lock /
