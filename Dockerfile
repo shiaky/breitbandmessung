@@ -21,4 +21,4 @@ RUN yarn install
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 #ENTRYPOINT ["tini", "--", "docker-entrypoint.sh"]
-CMD [ "/bin/sh" ]
+CMD [ "node", "index.js" ]
