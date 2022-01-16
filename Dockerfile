@@ -3,7 +3,7 @@ FROM node:16.13.2-alpine
 # Create app directory
 WORKDIR /usr/src/app
 
-RUN apk add --no-cache \
+RUN apk update && apk add --no-cache \
     procps \
     procps \
     chromium \      
@@ -15,6 +15,8 @@ RUN apk add --no-cache \
     bash \
     yarn \
     tini
+
+RUN rm -rf /var/cache/apk/*
     
 ENV DISTRO=alpine
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1
