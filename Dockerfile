@@ -19,6 +19,6 @@ RUN mkdir /export
 RUN yarn install
 
 COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN ln -s /usr/local/bin/docker-entrypoint.sh / 
 
-ENTRYPOINT ["tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
+#ENTRYPOINT ["tini", "--", "docker-entrypoint.sh"]
+CMD [ "/bin/sh" ]
