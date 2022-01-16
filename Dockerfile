@@ -2,9 +2,7 @@ FROM node:16.13.2-alpine
 
 RUN apk add --no-cache \
     procps \
-    libxss1 \
     chromium \
-    cron \
     tini
 
 # Install Puppeteer under /node_modules so it's available system-wide
