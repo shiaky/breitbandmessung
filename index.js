@@ -44,6 +44,8 @@ const click_button = async (
 (async () => {
   try {
     const browser = await puppeteer.launch({
+      product: "chrome",
+      executablePath: "/usr/bin/chromium",
       headless: START_HEADLESS,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
