@@ -6,6 +6,12 @@ A script to enable customers of lazy ISPs to perform measurement campaigns of th
 
 Create a folder for the measurement results `mkdir messprotokolle`.
 
+Make sure you have the most recent docker image:
+
+```
+docker pull shiaky/breitbandmessung:latest
+```
+
 Then just run this for creating a single measurement:
 
 ```
