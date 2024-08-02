@@ -1,4 +1,4 @@
-FROM node:14.16.0-buster-slim
+FROM node:22.5.1-bookworm-slim
 
 RUN  apt-get update \
      && apt-get install -y procps libxss1 chromium \
@@ -11,11 +11,10 @@ RUN yarn install
 # Create app directory
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock index.js ./
+COPY package.json yarn.lock ./
 
-RUN mkdir /export
-
-RUN yarn install
+RUN yarn install &&\
+    mkdir /export
 
 COPY index.js ./
 

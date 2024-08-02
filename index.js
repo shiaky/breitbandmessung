@@ -25,7 +25,7 @@ const click_button = async (
   page,
   selector,
   timeout = 30,
-  visible = false
+  visible = true //DEBUG
 ) => {
   try {
     await page.waitForSelector(selector, {
