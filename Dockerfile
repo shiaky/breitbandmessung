@@ -1,4 +1,5 @@
 FROM node:22.5.1-bookworm-slim
+ENV TZ="Europe/Berlin"
 
 RUN  apt-get update \
      && apt-get install -y procps libxss1 chromium \
