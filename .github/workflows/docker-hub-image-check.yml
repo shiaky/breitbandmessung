@@ -3,6 +3,7 @@ name: Check Docker Image
 on:
   schedule:
     - cron: '0 4 * * 6'  # Runs every Saturday at 04:00 AM UTC
+  workflow_dispatch:
 
 jobs:
 
