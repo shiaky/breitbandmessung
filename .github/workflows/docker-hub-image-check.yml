@@ -1,0 +1,29 @@
+name: Check Docker Image
+
+on:
+  schedule:
+    - cron: '0 4 * * 6'  # Runs every Saturday at 04:00 AM UTC
+
+jobs:
+
+  check-docker-image:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Run Docker container
+      id: run_container
+      run: docker run --rm shiaky/breitbandmessung:latest
+    - name: Check exit code
+      run: |
+        if [ "${{ steps.run_container.outputs.exitcode }}" -ne 0 ]; then
+          echo "Docker container exited with a non-zero exit code."
+          exit 1
+        else
+          echo "Docker container exited successfully."
+        fi
